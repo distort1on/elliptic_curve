@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-
+import random
+import math 
 
 @dataclass
 class Point:
@@ -16,8 +17,31 @@ class EllipticCurve:
 class ECPoint:
 
     @staticmethod
-    def BasePointGGet() -> Point:
-        pass
+    def BasePointGGet(order: int, curve: EllipticCurve) -> list[Point]:
+        """
+        Think that all points on curve are equally good to be the base point
+        order - order of subgroup
+        """
+        subgroup = []
+        g = Point(0, 0)
+
+        while True: 
+            x = random.randint(1, 100000)
+            y = math.sqrt(x**3 + curve.a * x + curve.b)
+
+            if ECPoint.IsOnCurveCheck(Point(x, y), curve):
+                g = Point(x, y)
+                break
+            
+        print(g)
+                
+
+        for i in range(1, order + 1):
+            subgroup.append(ECPoint.ScalarMult(g, i, curve))
+        
+
+        return subgroup
+        
 
     @staticmethod
     def ECPointGen(x: float, y: float) -> Point:
@@ -72,5 +96,7 @@ class ECPoint:
 curve = EllipticCurve(-7, 10)
 #print(ECPoint.AddECPoints(Point(1,2), Point(1,2)))
 #print(ECPoint.IsOnCurveCheck(Point(4, 5), curve=curve))
-print(ECPoint.ScalarMult(Point(1, 2), 4, curve))
+#print(ECPoint.ScalarMult(Point(1, 2), 1, curve))
+
+print(ECPoint.BasePointGGet(5, curve))
 #print(ECPoint.DoubleECPoints(Point(1, 2), -7))
