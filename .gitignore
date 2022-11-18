@@ -1,2 +1,5 @@
 Практичне завдання_additional_ Реалізація класу ECPoint для роботи з алгеброю на ЕК.pdf
-test.py
+main_over_finite_fields.py
+__pycache__/tests.cpython-311.pyc
+__pycache__/main.cpython-311.pyc
+.vscode/settings.json
