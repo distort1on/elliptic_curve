@@ -19,7 +19,7 @@ class EllipticCurve:
 class ECPoint:
 
     @staticmethod
-    def BasePointGGet(order: int, curve: EllipticCurve) -> list[Point]:
+    def BasePointGGet(order: int, curve: EllipticCurve):
         """
         Think that all points on curve are equally good to be the base point
         order: int - order of subgroup
@@ -40,7 +40,7 @@ class ECPoint:
             subgroup.append(ECPoint.ScalarMult(g, i, curve))
         
 
-        return subgroup
+        return g, subgroup
         
 
     @staticmethod
@@ -91,3 +91,22 @@ class ECPoint:
     @staticmethod
     def PrintECPoint(point: Point) -> None:
         print(ECPoint.ECPointToString(point))
+
+
+
+if __name__ == "__main__":
+    test_curve = EllipticCurve(-7, 10)
+    print('Curve: y^2 = x^3 - 7*x + 10 (R)\n')
+
+    _g, _subgroup = ECPoint.BasePointGGet(10, curve=test_curve)
+    print(f'Base point - {_g} \nSubgroup: {_subgroup}\n')
+
+    print(f'(1, 2) + (3, 4) = {ECPoint.AddECPoints(Point(1,2), Point(3,4))}\n')
+    
+    print(f'Double (1, 2) = {ECPoint.DoubleECPoints(Point(1, 2), curve=test_curve)}\n')
+
+    print(f'5 * (1, 2) = {ECPoint.ScalarMult(Point(1, 2), 5, curve=test_curve)}\n')
+
+    test_point = ECPoint.ECPointGen(1, 2)
+    print(f'Gen point (1, 2) -> {test_point}\n')
+    ECPoint.PrintECPoint(test_point)
